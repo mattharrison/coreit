@@ -23,7 +23,8 @@ __license__ = 'psf'
 __author__ = 'matthewharrison@gmail.com'
 __version__ = '0.0.1'
 
-
+from multiprocessing import Process, Queue
+from Queue import Empty
 
 
 def coreit(functions, args, num_procs):
@@ -32,18 +33,23 @@ def coreit(functions, args, num_procs):
     arguments (in tuples or empty tuples)), run them concurrently
     using num_procs.
     """
-    from multiprocessing import Process, Queue
-    from Queue import Empty
-    def runit(queue):
+    def runit(func_args_queue):
+        """
+        Target for multiprocessing.Process.  It takes a Queue instance
+        that has tuples of (function, args) in it.
+        Just pops off the functions and runs them.
+        """
         while True:
             try:
-                f, args = queue.get(block=False)
+                f, args = func_args_queue.get(block=False)
                 f(*args)
             except Empty:
                 break
     work_q = Queue()
     for i, f in enumerate(functions):
         work_q.put((f, args[i]))
+    # only create as many processes as we have num_procs
+    # they will run until work_q is empty
     processes = [Process(target=runit, args=(work_q,)) for i in range(num_procs)]
     for p in processes:
         p.start()
