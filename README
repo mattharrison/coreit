@@ -14,5 +14,15 @@ You can speed it up on a 4-core machine by running it like so:
 >>> args = [(i,) for i in xrange(start, stop)]
 >>> coreit(functions, args, 4)
 
+Requirements
+-------------
+
+* multiprocessing  (python 2.6 or http://code.google.com/p/python-multiprocessing/)
+
+Todo
+----
+
+* ?
+
 Licensed under PSF license
-Copyright (c) 2010 Matt Harrison
+Copyright (c) 2010 Matt Harrison (matthewharrison@gmail.com)
