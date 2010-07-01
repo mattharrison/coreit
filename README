@@ -1,0 +1,18 @@
+coreit
+-------
+
+Helper function to throw code on cores that can be run in parallel.
+
+If you have code like
+
+>>> for i in xrange(start, stop):
+...     slow_function(i)
+
+You can speed it up on a 4-core machine by running it like so:
+
+>>> functions = [slow_function for i in xrange(start, stop)]
+>>> args = [(i,) for i in xrange(start, stop)]
+>>> coreit(functions, args, 4)
+
+Licensed under PSF license
+Copyright (c) 2010 Matt Harrison
