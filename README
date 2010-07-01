@@ -14,6 +14,17 @@ You can speed it up on a 4-core machine by running it like so:
 >>> args = [(i,) for i in xrange(start, stop)]
 >>> coreit(functions, args, 4)
 
+Note that 
+
+>>> p = multiprocessing.Pool(4)
+>>> p.map(slow_function, xrange(start, stop))
+
+is built in and does the equivalent. 
+
+As such, this code is somewhat obsolete, but has a distinction: if you
+have *different* functions that you want to run concurrently, coreit
+will do it.  Pool.map won't.
+
 Requirements
 -------------
 
